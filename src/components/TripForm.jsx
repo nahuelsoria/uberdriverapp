@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './TripForm.css';
+import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave } from 'react-icons/fa';
 
 function TripForm({ onAddTrip }) {
   const [date, setDate] = useState('');
@@ -30,9 +31,8 @@ function TripForm({ onAddTrip }) {
 
   return (
     <form onSubmit={handleSubmit} className="trip-form">
-      <h2 className="trip-form__title">Agregar información de viajes</h2>
       <div className="trip-form__input-group">
-        <label htmlFor="date" className="trip-form__label">Fecha:</label>
+        <label htmlFor="date" className="trip-form__label"><FaCalendarAlt /> Fecha:</label>
         <input
           id="date"
           type="date"
@@ -43,7 +43,7 @@ function TripForm({ onAddTrip }) {
         />
       </div>
       <div className="trip-form__input-group">
-        <label htmlFor="startKm" className="trip-form__label">Km iniciales:</label>
+        <label htmlFor="startKm" className="trip-form__label"><FaRoad /> Km iniciales:</label>
         <input
           id="startKm"
           type="number"
@@ -55,7 +55,7 @@ function TripForm({ onAddTrip }) {
         />
       </div>
       <div className="trip-form__input-group">
-        <label htmlFor="endKm" className="trip-form__label">Km finales:</label>
+        <label htmlFor="endKm" className="trip-form__label"><FaRoad /> Km finales:</label>
         <input
           id="endKm"
           type="number"
@@ -67,7 +67,7 @@ function TripForm({ onAddTrip }) {
         />
       </div>
       <div className="trip-form__input-group">
-        <label htmlFor="hoursWorked" className="trip-form__label">Horas trabajadas:</label>
+        <label htmlFor="hoursWorked" className="trip-form__label"><FaClock /> Horas trabajadas:</label>
         <input
           id="hoursWorked"
           type="number"
@@ -79,7 +79,7 @@ function TripForm({ onAddTrip }) {
         />
       </div>
       <div className="trip-form__input-group">
-        <label htmlFor="dailyIncome" className="trip-form__label">Ingreso diario:</label>
+        <label htmlFor="dailyIncome" className="trip-form__label"><FaMoneyBillWave /> Ingreso diario:</label>
         <input
           id="dailyIncome"
           type="number"

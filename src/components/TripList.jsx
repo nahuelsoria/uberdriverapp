@@ -1,19 +1,19 @@
 import React from 'react';
 import './TripList.css';
+import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave } from 'react-icons/fa';
 
 function TripList({ trips }) {
   return (
     <div className="trip-list">
-      <h2 className="trip-list__title">Lista de Viajes</h2>
       <table className="trip-list__table">
         <thead>
           <tr>
-            <th>Fecha</th>
-            <th>Km iniciales</th>
-            <th>Km finales</th>
-            <th>Km recorridos</th>
-            <th>Horas trabajadas</th>
-            <th>Ingreso diario</th>
+            <th><FaCalendarAlt /> Fecha</th>
+            <th><FaRoad /> Km iniciales</th>
+            <th><FaRoad /> Km finales</th>
+            <th><FaRoad /> Km recorridos</th>
+            <th><FaClock /> Horas trabajadas</th>
+            <th><FaMoneyBillWave /> Ingreso diario</th>
           </tr>
         </thead>
         <tbody>
