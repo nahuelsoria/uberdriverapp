@@ -34,7 +34,8 @@ h2 {
 
 .trip-form-section,
 .trip-list-section,
-.monthly-report-section {
+.monthly-report-section,
+.charts-section {
   width: 100%;
   max-width: 800px;
   margin-bottom: 2rem;
@@ -51,7 +52,8 @@ h2 {
 
   .trip-form-section,
   .trip-list-section,
-  .monthly-report-section {
+  .monthly-report-section,
+  .charts-section {
     padding: 1rem;
   }
 

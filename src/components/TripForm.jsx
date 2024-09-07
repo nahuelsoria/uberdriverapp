@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './TripForm.css';
 import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave } from 'react-icons/fa';
+import { db, auth } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
-function TripForm({ onAddTrip }) {
+function TripForm() {
   const [date, setDate] = useState('');
   const [startKm, setStartKm] = useState('');
   const [endKm, setEndKm] = useState('');
@@ -14,19 +16,35 @@ function TripForm({ onAddTrip }) {
     setDate(today);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAddTrip({
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("Usuario no autenticado");
+      return;
+    }
+
+    const trip = {
+      userId: user.uid,
       date,
       startKm: parseFloat(startKm),
       endKm: parseFloat(endKm),
       hoursWorked: parseFloat(hoursWorked),
       dailyIncome: parseFloat(dailyIncome),
-    });
-    setStartKm('');
-    setEndKm('');
-    setHoursWorked('');
-    setDailyIncome('');
+      createdAt: new Date()
+    };
+
+    try {
+      await addDoc(collection(db, "transactions"), trip);
+      console.log("Viaje guardado exitosamente");
+      // Limpiar el formulario
+      setStartKm('');
+      setEndKm('');
+      setHoursWorked('');
+      setDailyIncome('');
+    } catch (error) {
+      console.error("Error al guardar el viaje:", error);
+    }
   };
 
   return (

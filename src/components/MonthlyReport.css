@@ -1,96 +1,36 @@
 .monthly-report {
-  background-color: #f0f8ff;
-  border-radius: 12px;
-  padding: 25px;
-  margin-top: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
 }
 
 .monthly-report__title {
-  color: #4a90e2;
-  font-size: 2em;
-  margin-bottom: 25px;
-  text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
 }
 
 .monthly-report__inputs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .monthly-report__input {
-  flex: 1 1 200px;
-  padding: 12px;
-  border: 2px solid #6ab04c;
-  border-radius: 8px;
-  font-size: 1.1em;
-  transition: all 0.3s ease;
-}
-
-.monthly-report__input:focus {
-  outline: none;
-  border-color: #4a90e2;
-  box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 16px;
 }
 
 .monthly-report__results {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 25px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  padding: 15px;
 }
 
 .monthly-report__result {
-  margin: 18px 0;
-  font-size: 1.2em;
-  line-height: 1.5;
-  color: #333;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .monthly-report__result span {
   font-weight: bold;
-  color: #e67e22;
-}
-
-.monthly-report__result--highlight {
-  font-size: 1.4em;
-  color: #2ecc71;
-  margin-top: 25px;
-  padding: 15px;
-  background-color: #e8f5e9;
-  border-radius: 8px;
-  border-left: 5px solid #27ae60;
-}
-
-.monthly-report__result--highlight span {
-  color: #16a085;
-}
-
-@media (max-width: 768px) {
-  .monthly-report {
-    padding: 20px;
-  }
-
-  .monthly-report__title {
-    font-size: 1.7em;
-  }
-
-  .monthly-report__inputs {
-    flex-direction: column;
-  }
-
-  .monthly-report__input {
-    flex: 1 1 100%;
-  }
-
-  .monthly-report__result {
-    font-size: 1.1em;
-  }
-
-  .monthly-report__result--highlight {
-    font-size: 1.2em;
-  }
+  color: var(--primary-color);
 }
