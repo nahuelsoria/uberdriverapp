@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave } from 'react-icons/fa';
+import './MonthlyReport.css';
 
 function MonthlyReport() {
   const [user] = useAuthState(auth);
@@ -59,9 +61,27 @@ function MonthlyReport() {
       </div>
       {report && (
         <div className="monthly-report__results">
-          <p className="monthly-report__result">Ingreso total: <span>${report.totalIncome.toFixed(2)}</span></p>
-          <p className="monthly-report__result">Km totales: <span>{report.totalKm.toFixed(2)}</span></p>
-          <p className="monthly-report__result">Horas totales: <span>{report.totalHours.toFixed(2)}</span></p>
+          <div className="monthly-report__result income">
+            <FaMoneyBillWave className="monthly-report__icon" />
+            <div className="monthly-report__data">
+              <h3>Ingreso total</h3>
+              <p>${report.totalIncome.toFixed(2)}</p>
+            </div>
+          </div>
+          <div className="monthly-report__result km">
+            <FaRoad className="monthly-report__icon" />
+            <div className="monthly-report__data">
+              <h3>Km totales</h3>
+              <p>{report.totalKm.toFixed(2)} km</p>
+            </div>
+          </div>
+          <div className="monthly-report__result hours">
+            <FaClock className="monthly-report__icon" />
+            <div className="monthly-report__data">
+              <h3>Horas totales</h3>
+              <p>{report.totalHours.toFixed(2)} hrs</p>
+            </div>
+          </div>
         </div>
       )}
     </div>
