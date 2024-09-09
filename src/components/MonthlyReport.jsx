@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave } from 'react-icons/fa';
 import './MonthlyReport.css';
@@ -16,44 +16,46 @@ function MonthlyReport() {
   }
 
   useEffect(() => {
-    const fetchMonthlyReport = async () => {
-      if (!user || !month) return;
+    let unsubscribe = () => {};
 
+    if (user && month) {
       const [year, monthNum] = month.split('-');
       const startDate = new Date(year, monthNum - 1, 1);
       const endDate = new Date(year, monthNum, 0);
 
-      try {
-        const q = query(
-          collection(db, "transactions"),
-          where("userId", "==", user.uid),
-          where("date", ">=", startDate.toISOString().split('T')[0]),
-          where("date", "<=", endDate.toISOString().split('T')[0])
-        );
+      const q = query(
+        collection(db, "transactions"),
+        where("userId", "==", user.uid),
+        where("date", ">=", startDate.toISOString().split('T')[0]),
+        where("date", "<=", endDate.toISOString().split('T')[0])
+      );
 
-        const querySnapshot = await getDocs(q);
-        const trips = querySnapshot.docs.map(doc => doc.data());
+      unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const trips = querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+        }));
 
-        const totalIncome = trips.reduce((sum, trip) => sum + trip.dailyIncome, 0);
-        const totalKm = trips.reduce((sum, trip) => sum + (trip.endKm - trip.startKm), 0);
-        const totalHours = trips.reduce((sum, trip) => sum + trip.hoursWorked, 0);
+        const totalIncome = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.dailyIncome) || 0), 0));
+        const totalKm = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.endKm) - parseFloat(trip.startKm) || 0), 0));
+        const totalHours = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.hoursWorked) || 0), 0));
 
         setReport({ totalIncome, totalKm, totalHours });
-      } catch (error) {
-        console.error("Error al obtener el reporte mensual:", error);
-      }
-    };
+      }, (error) => {
+        console.error("Error al obtener el reporte mensual en tiempo real:", error);
+      });
+    }
 
-    fetchMonthlyReport();
+    return () => unsubscribe();
   }, [user, month]);
 
   const formatNumber = (num) => {
-    return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   return (
     <div className="monthly-report">
-      <h2 className="monthly-report__title">Cierre Mensual</h2>
+      <h2 className="monthly-report__title">Reporte Mensual</h2>
       <div className="monthly-report__inputs">
         <input
           type="month"

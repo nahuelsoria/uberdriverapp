@@ -61,7 +61,7 @@ function TripList({ trips, setTrips }) {
 
   return (
     <div className="trip-list">
-      <h2 className="trip-list__title">Listado de Viajes</h2>
+      <h2 className="trip-list__title">Listado de días trabajados</h2>
       <div className="trip-list__container">
         {currentTrips.map((trip) => (
           <div key={trip.id} className="trip-list__item">

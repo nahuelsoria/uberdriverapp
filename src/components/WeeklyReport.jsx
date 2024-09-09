@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave } from 'react-icons/fa';
 import './WeeklyReport.css';
@@ -18,39 +18,40 @@ function WeeklyReport() {
   }
 
   useEffect(() => {
-    const fetchWeeklyReport = async () => {
-      if (!user || !weekStart) return;
+    if (!user || !weekStart) return;
 
-      const startDate = new Date(weekStart);
-      const endDate = new Date(startDate);
-      endDate.setDate(startDate.getDate() + 6);
+    const startDate = new Date(weekStart);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 6);
 
-      try {
-        const q = query(
-          collection(db, "transactions"),
-          where("userId", "==", user.uid),
-          where("date", ">=", startDate.toISOString().split('T')[0]),
-          where("date", "<=", endDate.toISOString().split('T')[0])
-        );
+    const q = query(
+      collection(db, "transactions"),
+      where("userId", "==", user.uid),
+      where("date", ">=", startDate.toISOString().split('T')[0]),
+      where("date", "<=", endDate.toISOString().split('T')[0])
+    );
 
-        const querySnapshot = await getDocs(q);
-        const trips = querySnapshot.docs.map(doc => doc.data());
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const trips = querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      }));
 
-        const totalIncome = trips.reduce((sum, trip) => sum + trip.dailyIncome, 0);
-        const totalKm = trips.reduce((sum, trip) => sum + (trip.endKm - trip.startKm), 0);
-        const totalHours = trips.reduce((sum, trip) => sum + trip.hoursWorked, 0);
+      const totalIncome = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.dailyIncome) || 0), 0));
+      const totalKm = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.endKm) - parseFloat(trip.startKm) || 0), 0));
+      const totalHours = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.hoursWorked) || 0), 0));
 
-        setReport({ totalIncome, totalKm, totalHours });
-      } catch (error) {
-        console.error("Error al obtener el reporte semanal:", error);
-      }
-    };
+      setReport({ totalIncome, totalKm, totalHours });
+    }, (error) => {
+      console.error("Error al obtener el reporte semanal en tiempo real:", error);
+    });
 
-    fetchWeeklyReport();
+    // Cleanup function to unsubscribe from the listener when the component unmounts or dependencies change
+    return () => unsubscribe();
   }, [user, weekStart]);
 
   const formatNumber = (num) => {
-    return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
   const formatDateRange = (start) => {
