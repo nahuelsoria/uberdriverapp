@@ -121,3 +121,31 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
+
+.auth__password-conditions {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #2c3e50;
+}
+
+.auth__password-conditions ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.auth__password-conditions li {
+  margin-bottom: 5px;
+}
+
+.auth__password-conditions li::before {
+  content: '❌ ';
+}
+
+.auth__password-conditions li.valid::before {
+  content: '✅ ';
+}
+
+.auth__error {
+  color: red;
+  margin-top: 10px;
+}

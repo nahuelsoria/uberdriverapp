@@ -8,18 +8,38 @@ function Auth() {
   const [password, setPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+
+  const passwordConditions = [
+    { regex: /.{8,}/, text: "Al menos 8 caracteres" },
+    { regex: /[A-Z]/, text: "Al menos una letra mayúscula" },
+    { regex: /[a-z]/, text: "Al menos una letra minúscula" },
+    { regex: /[0-9]/, text: "Al menos un número" },
+  ];
+
+  const validatePassword = (password) => {
+    const failedConditions = passwordConditions.filter(condition => !condition.regex.test(password));
+    return failedConditions.length === 0 ? '' : failedConditions.map(condition => condition.text).join(', ');
+  };
 
   const handleAuth = async (e) => {
     e.preventDefault();
     try {
       if (isRegistering) {
+        const error = validatePassword(password);
+        if (error) {
+          setPasswordError(`La contraseña debe cumplir las siguientes condiciones: ${error}`);
+          return;
+        }
         await createUserWithEmailAndPassword(auth, email, password);
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
       setShowForm(false);
+      setPasswordError('');
     } catch (error) {
       console.error("Error de autenticación:", error);
+      setPasswordError(error.message);
     }
   };
 
@@ -62,6 +82,19 @@ function Auth() {
             placeholder="Contraseña"
             required
           />
+          {isRegistering && (
+            <div className="auth__password-conditions">
+              <p>La contraseña debe cumplir las siguientes condiciones:</p>
+              <ul>
+                {passwordConditions.map((condition, index) => (
+                  <li key={index} className={condition.regex.test(password) ? 'valid' : 'invalid'}>
+                    {condition.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {passwordError && <p className="auth__error">{passwordError}</p>}
           <button type="submit" className="auth__button">
             {isRegistering ? 'Registrarse' : 'Iniciar sesión'}
           </button>
