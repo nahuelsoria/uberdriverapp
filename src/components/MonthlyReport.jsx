@@ -47,6 +47,10 @@ function MonthlyReport() {
     fetchMonthlyReport();
   }, [user, month]);
 
+  const formatNumber = (num) => {
+    return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
   return (
     <div className="monthly-report">
       <h2 className="monthly-report__title">Cierre Mensual</h2>
@@ -65,21 +69,21 @@ function MonthlyReport() {
             <FaMoneyBillWave className="monthly-report__icon" />
             <div className="monthly-report__data">
               <h3>Ingreso total</h3>
-              <p>${report.totalIncome.toFixed(2)}</p>
+              <p>${formatNumber(report.totalIncome)}</p>
             </div>
           </div>
           <div className="monthly-report__result km">
             <FaRoad className="monthly-report__icon" />
             <div className="monthly-report__data">
               <h3>Km totales</h3>
-              <p>{report.totalKm.toFixed(2)} km</p>
+              <p>{formatNumber(report.totalKm)} km</p>
             </div>
           </div>
           <div className="monthly-report__result hours">
             <FaClock className="monthly-report__icon" />
             <div className="monthly-report__data">
               <h3>Horas totales</h3>
-              <p>{report.totalHours.toFixed(2)} hrs</p>
+              <p>{formatNumber(report.totalHours)} hrs</p>
             </div>
           </div>
         </div>

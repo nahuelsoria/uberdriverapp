@@ -22,7 +22,7 @@ Esta aplicación web está diseñada para ayudar a los conductores a registrar y
 1. Implementar un sistema de autenticación de usuarios.
 2. Agregar una base de datos para almacenar los registros de viajes de forma persistente.
 3. Desarrollar una función de exportación de datos a formatos como CSV o PDF.
-4. Incluir gráficos para visualizar tendencias de ingresos y actividad.
+4. Incluir gráficos para visualizar tendencias de ingresos y actividad. (Realizado)
 5. Implementar un sistema de notificaciones para recordar al usuario registrar sus viajes diarios.
 6. Añadir la capacidad de editar y eliminar registros de viajes existentes.
 7. Crear una versión móvil de la aplicación para facilitar el registro en tiempo real.

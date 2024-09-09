@@ -1,130 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import { auth, db } from "../firebase.js"
+import React, { useState } from 'react';
+import { auth } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
 import '../Auth.css';
 
 function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [patente, setPatente] = useState('');
-  const [nombre, setNombre] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
-  const [user] = useAuthState(auth);
-  const [userData, setUserData] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (user) {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-        }
+  const handleAuth = async (e) => {
+    e.preventDefault();
+    try {
+      if (isRegistering) {
+        await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
       }
-    };
-    fetchUserData();
-  }, [user]);
-
-  const signIn = async (e) => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
+      setShowForm(false);
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      console.error("Error de autenticación:", error);
     }
   };
 
-  const signUp = async (e) => {
-    e.preventDefault();
+  const handleLogout = async () => {
     try {
-      console.log("Iniciando registro de usuario...");
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("Usuario creado exitosamente:", userCredential.user.uid);
-      
-      const userDocRef = doc(db, 'users', userCredential.user.uid);
-      await setDoc(userDocRef, {
-        nombre,
-        patente
-      });
-      console.log("Información de usuario guardada en Firestore");
+      await signOut(auth);
     } catch (error) {
-      console.error("Error al registrarse:", error);
-      // Aquí puedes agregar alguna lógica para mostrar el error al usuario
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
-  const logout = async () => {
-    await signOut(auth);
-  };
+  if (auth.currentUser) {
+    return (
+      <div className="auth">
+        <div className="auth__user-info">
+          <span>{auth.currentUser.email}</span>
+          <button className="auth__button" onClick={handleLogout}>Cerrar sesión</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="auth">
-      {user ? (
-        <div>
-          <p>Bienvenido, {userData ? userData.nombre : 'Usuario'}</p>
-          <button onClick={logout} className="auth__button">Cerrar sesión</button>
-        </div>
+      {showForm && <div className="auth__overlay" onClick={() => setShowForm(false)}></div>}
+      {showForm ? (
+        <form onSubmit={handleAuth} className="auth__form">
+          <h3>{isRegistering ? 'Registrarse' : 'Iniciar sesión'}</h3>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Correo electrónico"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Contraseña"
+            required
+          />
+          <button type="submit" className="auth__button">
+            {isRegistering ? 'Registrarse' : 'Iniciar sesión'}
+          </button>
+          <button type="button" className="auth__button" onClick={() => setIsRegistering(!isRegistering)}>
+            {isRegistering ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
+          </button>
+          <button type="button" className="auth__button auth__button--cancel" onClick={() => setShowForm(false)}>
+            Cancelar
+          </button>
+        </form>
       ) : (
-        isRegistering ? (
-          <form onSubmit={signUp}>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              required
-              className="auth__input"
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Contraseña"
-              required
-              className="auth__input"
-            />
-            <input
-              type="text"
-              value={patente}
-              onChange={(e) => setPatente(e.target.value)}
-              placeholder="Patente"
-              required
-              className="auth__input"
-            />
-            <input
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              placeholder="Nombre"
-              required
-              className="auth__input"
-            />
-            <button type="submit" className="auth__button">Registrarse</button>
-            <button onClick={() => setIsRegistering(false)} className="auth__button">Volver a Iniciar sesión</button>
-          </form>
-        ) : (
-          <form onSubmit={signIn}>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              required
-              className="auth__input"
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Contraseña"
-              required
-              className="auth__input"
-            />
-            <button type="submit" className="auth__button">Iniciar sesión</button>
-            <button onClick={() => setIsRegistering(true)} className="auth__button">Registrarse</button>
-          </form>
-        )
+        <button className="auth__button" onClick={() => setShowForm(true)}>
+          Iniciar sesión / Registrarse
+        </button>
       )}
     </div>
   );

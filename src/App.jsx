@@ -32,31 +32,24 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <h1><FaCar /> Control de Viajes Uber</h1>
+      <header className="app-header">
+        <div className="app-header__content">
+          <h1 className="app-header__title"><FaCar /> Control de Viajes Uber</h1>
+          <Auth />
+        </div>
       </header>
-      <Auth />
       {user ? (
         <main>
-          <section className="trip-form-section">
-            <h2><FaCar /> Agregar Viaje</h2>
-            <TripForm />
-          </section>
-          <section className="trip-list-section">
-        <h2><FaList /> Lista de Viajes</h2>
-            <TripList trips={trips} setTrips={setTrips} />
-          </section>
-          <section className="monthly-report-section">
-            <h2><FaChartBar /> Reporte Mensual</h2>
-            <MonthlyReport trips={trips} />
-          </section>
-          <section className="charts-section">
-            <h2><FaChartLine /> Gráficos de Tendencias</h2>
-            <Charts trips={trips} />
-          </section>
+          <TripForm />
+          <MonthlyReport trips={trips} />
+          <TripList trips={trips} setTrips={setTrips} />
+          <Charts trips={trips} />
         </main>
       ) : (
-        <p>Por favor, inicia sesión para acceder a la aplicación.</p>
+        <div className="app-welcome">
+          <h2>Bienvenido a Control de Viajes Uber</h2>
+          <p>Por favor, inicia sesión para acceder a la aplicación.</p>
+        </div>
       )}
     </div>
   )

@@ -1,33 +1,123 @@
+/* Contenedor principal para los elementos de autenticación */
 .auth {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 20px;
-  box-shadow: var(--box-shadow);
-  max-width: 300px;
-  margin: 0 auto 20px;
+  position: relative;
 }
 
-.auth__input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  font-size: 16px;
+/* Estilo para mostrar la información del usuario autenticado */
+.auth__user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+/* Estilo base para los botones de autenticación */
 .auth__button {
-  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para los botones de autenticación */
+.auth__button:hover {
+  background-color: #2c3e50;
+}
+
+/* Estilo para el formulario de autenticación */
+.auth__form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  max-width: 90%;
+  z-index: 1000;
+}
+
+/* Estilo para el título del formulario */
+.auth__form h3 {
+  margin: 0 0 10px;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+/* Estilo para los campos de entrada del formulario */
+.auth__form input {
   padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Efecto focus para los campos de entrada */
+.auth__form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Estilo base para los botones dentro del formulario */
+.auth__form button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+/* Estilo para el botón de envío del formulario */
+.auth__form button[type="submit"] {
   background-color: var(--primary-color);
   color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: 16px;
-  cursor: pointer;
-  transition: var(--transition);
 }
 
-.auth__button:hover {
+/* Efecto hover para el botón de envío */
+.auth__form button[type="submit"]:hover {
   background-color: #3a7bd5;
+}
+
+/* Estilo para los botones secundarios del formulario */
+.auth__form button[type="button"] {
+  background-color: #f0f0f0;
+  color: var(--text-color);
+}
+
+/* Efecto hover para los botones secundarios */
+.auth__form button[type="button"]:hover {
+  background-color: #e0e0e0;
+}
+
+/* Estilo para el botón de cancelar */
+.auth__form button.auth__button--cancel {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Efecto hover para el botón de cancelar */
+.auth__form button.auth__button--cancel:hover {
+  background-color: #c0392b;
+}
+
+/* Overlay para oscurecer el fondo cuando el formulario está abierto */
+.auth__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
