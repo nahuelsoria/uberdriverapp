@@ -28,6 +28,8 @@
     border-radius: 8px;
     font-size: 1em;
     transition: border-color 0.3s ease;
+    width: 100%;
+    max-width: 200px;
   }
   
   .weekly-report__input:focus {
@@ -44,6 +46,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
+    margin-top: 20px;
   }
   
   .weekly-report__result {
@@ -105,11 +108,12 @@
   @media (max-width: 768px) {
     .weekly-report__controls {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
     }
   
     .weekly-report__input {
       width: 100%;
+      max-width: none;
     }
     
     .weekly-report__results {
