@@ -61,7 +61,7 @@ function TripForm() {
         />
       </div>
       <div className="trip-form__input-group">
-        <label htmlFor="startKm" className="trip-form__label"><FaRoad /> Km iniciales:</label>
+        <label htmlFor="startKm" className="trip-form__label"><FaRoad /> Km al inicio del turno:</label>
         <input
           id="startKm"
           type="number"
@@ -73,7 +73,7 @@ function TripForm() {
         />
       </div>
       <div className="trip-form__input-group">
-        <label htmlFor="endKm" className="trip-form__label"><FaRoad /> Km finales:</label>
+        <label htmlFor="endKm" className="trip-form__label"><FaRoad /> Km al final del turno:</label>
         <input
           id="endKm"
           type="number"
