@@ -1,0 +1,118 @@
+.weekly-report {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .weekly-report__title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5em;
+    text-align: center;
+  }
+  
+  .weekly-report__controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .weekly-report__input {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+  }
+  
+  .weekly-report__input:focus {
+    outline: none;
+    border-color: #4a90e2;
+  }
+  
+  .weekly-report__date-range {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .weekly-report__results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .weekly-report__result {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .weekly-report__result:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .weekly-report__icon {
+    font-size: 2em;
+    margin-right: 15px;
+  }
+  
+  .weekly-report__data h3 {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .weekly-report__data p {
+    margin: 5px 0 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .weekly-report__result.income {
+    background-color: #e3f2fd;
+  }
+  
+  .weekly-report__result.income .weekly-report__icon {
+    color: #1976d2;
+  }
+  
+  .weekly-report__result.km {
+    background-color: #e8f5e9;
+  }
+  
+  .weekly-report__result.km .weekly-report__icon {
+    color: #388e3c;
+  }
+  
+  .weekly-report__result.hours {
+    background-color: #fff3e0;
+  }
+  
+  .weekly-report__result.hours .weekly-report__icon {
+    color: #f57c00;
+  }
+  
+  @media (max-width: 768px) {
+    .weekly-report__controls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .weekly-report__input {
+      width: 100%;
+    }
+    
+    .weekly-report__results {
+      grid-template-columns: 1fr;
+    }
+  }

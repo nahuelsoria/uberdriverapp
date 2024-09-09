@@ -14,10 +14,13 @@
 
 .monthly-report__inputs {
   margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
 }
 
 .monthly-report__input {
   width: 100%;
+  max-width: 300px;
   padding: 12px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;

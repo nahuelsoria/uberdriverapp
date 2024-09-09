@@ -3,6 +3,7 @@ import './App.css'
 import TripForm from './components/TripForm'
 import TripList from './components/TripList'
 import MonthlyReport from './components/MonthlyReport'
+import WeeklyReport from './components/WeeklyReport';
 import Charts from './components/Charts'
 import Auth from './components/Auth'
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -41,6 +42,7 @@ function App() {
       {user ? (
         <main>
           <TripForm />
+          <WeeklyReport trips={trips} />
           <MonthlyReport trips={trips} />
           <TripList trips={trips} setTrips={setTrips} />
           <Charts trips={trips} />
