@@ -1,31 +1,33 @@
 .monthly-report {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .monthly-report__title {
+  margin-top: 0;
+  margin-bottom: 20px;
   color: #333;
   font-size: 1.5em;
-  margin-bottom: 20px;
   text-align: center;
 }
 
 .monthly-report__inputs {
-  margin-bottom: 24px;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .monthly-report__input {
-  width: 100%;
-  max-width: 300px;
   padding: 12px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1em;
   transition: border-color 0.3s ease;
+  width: 100%;
+  max-width: 200px;
 }
 
 .monthly-report__input:focus {
@@ -40,11 +42,10 @@
 }
 
 .monthly-report__result {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 20px;
   display: flex;
   align-items: center;
+  border-radius: 8px;
+  padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -95,8 +96,21 @@
   color: #f57c00;
 }
 
+.monthly-report__result.income-per-hour {
+  background-color: #f3e5f5;
+}
+
+.monthly-report__result.income-per-hour .monthly-report__icon {
+  color: #8e24aa;
+}
+
 @media (max-width: 768px) {
   .monthly-report__results {
     grid-template-columns: 1fr;
+  }
+  
+  .monthly-report__input {
+    width: 100%;
+    max-width: none;
   }
 }

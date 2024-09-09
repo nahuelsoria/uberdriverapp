@@ -120,3 +120,11 @@
       grid-template-columns: 1fr;
     }
   }
+
+  .weekly-report__result.income-per-hour {
+    background-color: #f3e5f5;
+  }
+  
+  .weekly-report__result.income-per-hour .weekly-report__icon {
+    color: #8e24aa;
+  }

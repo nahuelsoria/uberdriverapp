@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave } from 'react-icons/fa';
+import { FaCalendarAlt, FaRoad, FaClock, FaMoneyBillWave, FaDollarSign } from 'react-icons/fa';
 import './MonthlyReport.css';
 
 function MonthlyReport() {
@@ -39,8 +39,9 @@ function MonthlyReport() {
         const totalIncome = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.dailyIncome) || 0), 0));
         const totalKm = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.endKm) - parseFloat(trip.startKm) || 0), 0));
         const totalHours = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.hoursWorked) || 0), 0));
+        const incomePerHour = totalHours > 0 ? totalIncome / totalHours : 0;
 
-        setReport({ totalIncome, totalKm, totalHours });
+        setReport({ totalIncome, totalKm, totalHours, incomePerHour });
       }, (error) => {
         console.error("Error al obtener el reporte mensual en tiempo real:", error);
       });
@@ -86,6 +87,13 @@ function MonthlyReport() {
             <div className="monthly-report__data">
               <h3>Horas totales</h3>
               <p>{formatNumber(report.totalHours)} hrs</p>
+            </div>
+          </div>
+          <div className="monthly-report__result income-per-hour">
+            <FaDollarSign className="monthly-report__icon" />
+            <div className="monthly-report__data">
+              <h3>Ingreso por hora</h3>
+              <p>${formatNumber(Math.round(report.incomePerHour))}/hr</p>
             </div>
           </div>
         </div>

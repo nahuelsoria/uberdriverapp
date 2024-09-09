@@ -115,7 +115,9 @@ function TripList({ trips, setTrips }) {
         >
           <FaChevronLeft />
         </button>
-        <span>{currentPage} de {Math.ceil(trips.length / tripsPerPage)}</span>
+        <span className="trip-list__pagination-text">
+          {currentPage} de {Math.ceil(trips.length / tripsPerPage)}
+        </span>
         <button 
           onClick={() => paginate(currentPage + 1)} 
           disabled={currentPage === Math.ceil(trips.length / tripsPerPage)}

@@ -16,6 +16,17 @@ function TripForm() {
     setDate(today);
   }, []);
 
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;
+    const today = new Date().toISOString().split('T')[0];
+    
+    if (selectedDate <= today) {
+      setDate(selectedDate);
+    } else {
+      setDate(today);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -55,7 +66,8 @@ function TripForm() {
           id="date"
           type="date"
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={handleDateChange}
+          max={new Date().toISOString().split('T')[0]}
           required
           className="trip-form__input"
         />
