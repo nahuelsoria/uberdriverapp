@@ -7,63 +7,65 @@ import './WeeklyReport.css';
 
 function WeeklyReport() {
   const [user] = useAuthState(auth);
-  const [weekStart, setWeekStart] = useState(getWeekStart());
+  const [selectedWeek, setSelectedWeek] = useState(getCurrentWeek());
   const [report, setReport] = useState(null);
 
-  function getWeekStart(date = new Date()) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
-    return new Date(d.setDate(diff)).toISOString().split('T')[0];
+  function getCurrentWeek() {
+    const now = new Date();
+    const yearStart = new Date(now.getFullYear(), 0, 1);
+    const weekNumber = Math.ceil((((now - yearStart) / 86400000) + yearStart.getDay() + 1) / 7);
+    return `${now.getFullYear()}-W${weekNumber.toString().padStart(2, '0')}`;
+  }
+
+  function getWeekDates(weekString) {
+    const [year, week] = weekString.split('-W');
+    const firstDayOfYear = new Date(parseInt(year), 0, 1);
+    const daysToFirstMonday = (8 - firstDayOfYear.getDay()) % 7;
+    const firstMonday = new Date(firstDayOfYear.getTime() + daysToFirstMonday * 86400000);
+    const weekStart = new Date(firstMonday.getTime() + (parseInt(week) - 1) * 7 * 86400000);
+    const weekEnd = new Date(weekStart.getTime() + 6 * 86400000);
+    return { weekStart, weekEnd };
   }
 
   useEffect(() => {
-    if (!user || !weekStart) return;
+    let unsubscribe = () => {};
 
-    const startDate = new Date(weekStart);
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 6);
+    if (user && selectedWeek) {
+      const { weekStart, weekEnd } = getWeekDates(selectedWeek);
 
-    const q = query(
-      collection(db, "transactions"),
-      where("userId", "==", user.uid),
-      where("date", ">=", startDate.toISOString().split('T')[0]),
-      where("date", "<=", endDate.toISOString().split('T')[0])
-    );
+      const q = query(
+        collection(db, "transactions"),
+        where("userId", "==", user.uid),
+        where("date", ">=", weekStart.toISOString().split('T')[0]),
+        where("date", "<=", weekEnd.toISOString().split('T')[0])
+      );
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const trips = querySnapshot.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id
-      }));
+      unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const trips = querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+        }));
 
-      const totalIncome = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.dailyIncome) || 0), 0));
-      const totalKm = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.endKm) - parseFloat(trip.startKm) || 0), 0));
-      const totalHours = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.hoursWorked) || 0), 0));
+        const totalIncome = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.dailyIncome) || 0), 0));
+        const totalKm = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.endKm) - parseFloat(trip.startKm) || 0), 0));
+        const totalHours = Math.round(trips.reduce((sum, trip) => sum + (parseFloat(trip.hoursWorked) || 0), 0));
 
-      setReport({ totalIncome, totalKm, totalHours });
-    }, (error) => {
-      console.error("Error al obtener el reporte semanal en tiempo real:", error);
-    });
+        setReport({ totalIncome, totalKm, totalHours });
+      }, (error) => {
+        console.error("Error al obtener el reporte semanal en tiempo real:", error);
+      });
+    }
 
-    // Cleanup function to unsubscribe from the listener when the component unmounts or dependencies change
     return () => unsubscribe();
-  }, [user, weekStart]);
+  }, [user, selectedWeek]);
 
   const formatNumber = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const formatDateRange = (start) => {
-    const startDate = new Date(start);
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 6);
-    return `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
-  };
-
-  const handleDateChange = (e) => {
-    const selectedDate = new Date(e.target.value);
-    setWeekStart(getWeekStart(selectedDate));
+  const formatDateRange = (weekString) => {
+    const { weekStart, weekEnd } = getWeekDates(weekString);
+    return `${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`;
   };
 
   return (
@@ -71,12 +73,12 @@ function WeeklyReport() {
       <h2 className="weekly-report__title">Reporte Semanal</h2>
       <div className="weekly-report__controls">
         <input
-          type="date"
-          value={weekStart}
-          onChange={handleDateChange}
+          type="week"
+          value={selectedWeek}
+          onChange={(e) => setSelectedWeek(e.target.value)}
           className="weekly-report__input"
         />
-        <span className="weekly-report__date-range">{formatDateRange(weekStart)}</span>
+        <span className="weekly-report__date-range">{formatDateRange(selectedWeek)}</span>
       </div>
       {report && (
         <div className="weekly-report__results">
