@@ -35,3 +35,10 @@
   .trip-form__submit-btn:hover {
     background-color: #3a7bd5;
   }
+
+  .trip-form__error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+    display: block;
+  }

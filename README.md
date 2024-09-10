@@ -17,7 +17,7 @@ Esta aplicación web está diseñada para ayudar a los conductores de Uber a reg
 
 ## Características Principales
 
-1. Formulario de registro de viajes diarios con cálculo automático de ingresos.
+1. Formulario de registro de viajes diarios con validación de datos y cálculo automático de ingresos.
 2. Informe semanal con cálculos de ingresos totales, kilómetros recorridos, horas trabajadas e ingreso por hora.
 3. Informe mensual con resumen de actividad y comparativas.
 4. Interfaz de usuario intuitiva y responsive con diseño moderno.
@@ -31,14 +31,12 @@ Esta aplicación web está diseñada para ayudar a los conductores de Uber a reg
 
 1. Implementar una función de exportación de datos a formatos como CSV o PDF.
 2. Desarrollar un sistema de notificaciones para recordar al usuario registrar sus viajes diarios.
-3. Crear una versión móvil de la aplicación para facilitar el registro en tiempo real.
 4. Implementar un sistema de cálculo automático de gastos (combustible, mantenimiento, etc.) para obtener ganancias netas.
 5. Añadir soporte para múltiples idiomas.
 6. Implementar una función de copia de seguridad y restauración de datos.
 7. Añadir más tipos de gráficos y opciones de personalización para la visualización de datos.
 8. Implementar un sistema de metas y logros para motivar a los conductores.
 9. Añadir una función de comparación de rendimiento entre diferentes períodos de tiempo.
-10. Integrar con la API de Uber para obtener datos de viajes automáticamente.
 11. Mejorar la validación de datos en el formulario de registro de viajes.
 12. Implementar un sistema de filtrado y búsqueda en la lista de viajes.
 
@@ -52,6 +50,8 @@ Esta aplicación web está diseñada para ayudar a los conductores de Uber a reg
 
 ## Notas de la Última Actualización
 
-- Se ha añadido paginación a la lista de viajes para mejorar el rendimiento con grandes cantidades de datos.
-- Se ha mejorado la interfaz de edición de viajes con un modal más intuitivo.
-- Se han actualizado las dependencias del proyecto para incluir las últimas versiones estables.
+- Se ha implementado una validación de datos más robusta en el formulario de registro de viajes.
+- Se ha mejorado la interfaz de usuario con nuevos iconos y un diseño más intuitivo.
+- Se ha optimizado el rendimiento de la aplicación, especialmente en la carga de datos desde Firebase.
+- Se han actualizado todas las dependencias del proyecto a sus últimas versiones estables.
+- Se ha añadido una nueva funcionalidad de cálculo automático de ingresos basado en los kilómetros recorridos y las horas trabajadas.
