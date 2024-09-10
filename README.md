@@ -25,6 +25,7 @@ Esta aplicación web está diseñada para ayudar a los conductores de Uber a reg
 6. Almacenamiento en tiempo real de datos en Firebase Firestore.
 7. Visualización de datos mediante gráficos interactivos.
 8. Lista de viajes con opción de editar y eliminar registros.
+9. Paginación en la lista de viajes para mejorar el rendimiento y la experiencia del usuario.
 
 ## Mejoras a Desarrollar
 
@@ -38,6 +39,8 @@ Esta aplicación web está diseñada para ayudar a los conductores de Uber a reg
 8. Implementar un sistema de metas y logros para motivar a los conductores.
 9. Añadir una función de comparación de rendimiento entre diferentes períodos de tiempo.
 10. Integrar con la API de Uber para obtener datos de viajes automáticamente.
+11. Mejorar la validación de datos en el formulario de registro de viajes.
+12. Implementar un sistema de filtrado y búsqueda en la lista de viajes.
 
 ## Cómo Ejecutar la Aplicación
 
@@ -46,3 +49,9 @@ Esta aplicación web está diseñada para ayudar a los conductores de Uber a reg
 3. Configurar las variables de entorno para Firebase en un archivo `.env`
 4. Ejecutar la aplicación en modo desarrollo con `npm run dev`
 5. Abrir `http://localhost:5173` en el navegador
+
+## Notas de la Última Actualización
+
+- Se ha añadido paginación a la lista de viajes para mejorar el rendimiento con grandes cantidades de datos.
+- Se ha mejorado la interfaz de edición de viajes con un modal más intuitivo.
+- Se han actualizado las dependencias del proyecto para incluir las últimas versiones estables.
