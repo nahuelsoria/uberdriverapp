@@ -9,11 +9,15 @@ import Auth from './components/Auth'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from './firebase'
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { FaCar, FaList, FaChartBar, FaChartLine } from 'react-icons/fa'
+import { FaCar, FaList, FaChartBar, FaChartLine, FaGasPump } from 'react-icons/fa'
+import FuelExpenseForm from './components/FuelExpenseForm.jsx';
+import FuelExpenseList from './components/FuelExpenseList.jsx';
 
 function App() {
   const [user, loading] = useAuthState(auth);
   const [trips, setTrips] = useState([]);
+  const [activeTab, setActiveTab] = useState('trips');
+
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -33,25 +37,41 @@ function App() {
 
   return (
     <div className="App">
-      <header className="app-header">
-        <div className="app-header__content">
-          <h1 className="app-header__title"><FaCar /> Control de Viajes Uber</h1>
-          <Auth />
-        </div>
+      <header className="App-header">
+        <h1>Registro de Viajes y Gastos</h1>
+        {user && (
+          <nav>
+            <button onClick={() => setActiveTab('trips')}><FaCar /> Viajes</button>
+            <button onClick={() => setActiveTab('fuel')}><FaGasPump /> Combustible</button>
+            <button onClick={() => setActiveTab('reports')}><FaChartBar /> Reportes</button>
+            <button onClick={() => auth.signOut()}>Cerrar sesión</button>
+          </nav>
+        )}
       </header>
       {user ? (
         <main>
-          <TripForm />
-          <WeeklyReport trips={trips} />
-          <MonthlyReport trips={trips} />
-          <TripList trips={trips} setTrips={setTrips} />
-          <Charts trips={trips} />
+          {activeTab === 'trips' && (
+            <>
+              <TripForm />
+              <TripList trips={trips} setTrips={setTrips} />
+            </>
+          )}
+          {activeTab === 'fuel' && (
+            <>
+              <FuelExpenseForm />
+              <FuelExpenseList />
+            </>
+          )}
+          {activeTab === 'reports' && (
+            <>
+              <WeeklyReport trips={trips} />
+              <MonthlyReport trips={trips} />
+              <Charts trips={trips} />
+            </>
+          )}
         </main>
       ) : (
-        <div className="app-welcome">
-          <h2>Bienvenido a Control de Viajes Uber</h2>
-          <p>Por favor, inicia sesión para acceder a la aplicación.</p>
-        </div>
+        <Auth />
       )}
     </div>
   )

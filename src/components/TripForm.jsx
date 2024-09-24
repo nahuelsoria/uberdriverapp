@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { db, auth } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import './TripForm.css';
@@ -125,6 +125,7 @@ function TripForm() {
           value={startKm}
           onChange={(e) => setStartKm(e.target.value)}
           step="0.1"
+          min="0"
         />
         {errors.startKm && <span className="trip-form__error">{errors.startKm}</span>}
       </div>
@@ -136,6 +137,7 @@ function TripForm() {
           value={endKm}
           onChange={(e) => setEndKm(e.target.value)}
           step="0.1"
+          min="0"
         />
         {errors.endKm && <span className="trip-form__error">{errors.endKm}</span>}
       </div>
@@ -147,6 +149,8 @@ function TripForm() {
           value={hoursWorked}
           onChange={(e) => setHoursWorked(e.target.value)}
           step="0.5"
+          min="0"
+          max="24"
         />
         {errors.hoursWorked && <span className="trip-form__error">{errors.hoursWorked}</span>}
       </div>
@@ -158,6 +162,7 @@ function TripForm() {
           value={dailyIncome}
           onChange={(e) => setDailyIncome(e.target.value)}
           step="0.01"
+          min="0"
         />
         {errors.dailyIncome && <span className="trip-form__error">{errors.dailyIncome}</span>}
       </div>
